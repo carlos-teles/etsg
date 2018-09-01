@@ -7,6 +7,7 @@ TICK ( influxdb and telegraf )
 suricata-update - The tool for updating your Suricata rules.
 and dependencies
 
+<pre>
 ###############################
 install-only-etsg-v0.1.sh - Tested on Linux Mint 18.3 - 64
 Install all needed packages
@@ -16,6 +17,7 @@ Install all needed packages
 install-and-clean-etsg-v0.3.sh - Tested on Linux Mint 18.3 - 64
 Install all needed packages and clean environment
 ###############################
+</pre>
 
 
 URL to download VM with entire environment - Linux Mint 18.3 64 Bits: 
