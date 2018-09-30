@@ -11,8 +11,7 @@ Firmware Analysis Toolkit is build on top of the following existing tools and pr
 * [Grafana](https://grafana.com/)
 * [TICK ( influxdb and telegraf ) ](https://www.influxdata.com/time-series-platform/)
 * [suricata-update - The tool for updating your Suricata rules and dependencies](https://github.com/OISF/suricata-update)
-
-
+* [Ettercap - ](https://www.ettercap-project.org/)
 
 ***
 ## Setup instructions
