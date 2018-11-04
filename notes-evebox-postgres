@@ -15,3 +15,9 @@ create role evebox
 /var/lib/evebox/pgdata9.6
 
 postgres@kali-librenms:/usr/local/pgsql/bin$ ./psql -h 127.0.0.1 -U evebox
+
+chmod 660 eve.json
+ chmod 660 eve.json.bookmark 
+
+
+
