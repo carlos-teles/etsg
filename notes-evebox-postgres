@@ -1,0 +1,8 @@
+como usuario postgresql e usando postgresql 9.6
+su - postgresql
+PATH=$PATH:/usr/local/pgsql/bin
+/usr/bin/evebox  --datastore postgresql -v -D /var/lib/postgresql/evebox --input /var/log/suricata/eve.json
+
+/var/lib/evebox/pgdata9.6
+
+postgres@kali-librenms:/usr/local/pgsql/bin$ ./psql -h 127.0.0.1 -U evebox
