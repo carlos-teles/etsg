@@ -1,3 +1,5 @@
+wget https://get.enterprisedb.com/postgresql/postgresql-9.6.10-1-linux-x64-binaries.tar.gz
+tar -zxvf postgresql-9.6.10-1-linux-x64-binaries.tar.gz
 como usuario postgresql e usando postgresql 9.6
 su - postgresql
 PATH=$PATH:/usr/local/pgsql/bin
