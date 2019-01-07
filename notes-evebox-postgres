@@ -10,6 +10,7 @@ pg_ctl -D /opt2/evebox/pgdata9.6 -l logfile start
 
 create role evebox
 
+PATH=$PATH:/usr/local/pgsql/bin
 /usr/bin/evebox  --datastore postgresql -v -D /var/lib/postgresql/evebox --input /var/log/suricata/eve.json
 
 /var/lib/evebox/pgdata9.6
