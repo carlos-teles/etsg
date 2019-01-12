@@ -1,0 +1,11 @@
+#
+#   Must configure port 8088 at influxdb
+#
+#   Export database telegraf
+influxd backup -portable -database telegraf <path-to-backup>
+
+#
+#
+#   Restore the database to a temporary database.
+
+influxd restore -portable -db telegraf -newdb telegraf_bak path-to-backup
