@@ -66,7 +66,7 @@ systemctl stop suricata.service
 echo "8 - Install EVEBOX"
 sleep 3
 wget -qO - https://evebox.org/files/GPG-KEY-evebox | sudo apt-key add -
-echo "deb http://files.evebox.org/evebox/debian stable main" | sudo tee /etc/apt/sources.list.d/evebox.list
+echo "deb [arch=amd64] http://files.evebox.org/evebox/debian stable main" | sudo tee /etc/apt/sources.list.d/evebox.list
 apt-get update
 apt-get install evebox
 
