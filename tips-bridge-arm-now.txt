@@ -1,0 +1,331 @@
+MUITO BOM!
+https://www.linux-kvm.org/page/Networking
+
+arm_now list -> lista arquiteturas
+
+/usr/bin/ettercap  -T -i eth5 -M arp:remote /192.168.1.254// ///
+
+
+ qemu-system-x86_64 -net nic,model=help  ->  Lista modelos de net para x86_64
+ qemu-system-arm -M vexpress-a9 -net nic,model=help ->  Lista modelos de net para arm
+ qemu-system-mipsel -net nic,model=help  ->  Lista modelos de net para x86_64
+
+=====================================
+brctl addbr br0
+ifconfig
+brctl addif br0 eth3
+brctl show
+
+route add default gw 192.168.1.254 eth3
+route -n
+ip addr flush dev eth3
+brctl show
+ip addr flush dev eth3
+dhclient -v br0
+
+=====================================
+
+Criar tap
+
+tunctl -t tap2 -u `whoami`
+ifconfig tap2
+brctl addif br0 tap2
+ip link set up dev tap2
+brctl show
+
+arm_now start armv5-eabi --add-qemu-options="-net nic -net tap,ifname=tap2,script=no,downscript=no"
+
+->melhorrou!!!!!!!!!!!!!!!!!!!!
+Gerar MAC-> printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
+
+---> FUNCIONOU!
+arm_now start armv5-eabi --add-qemu-options="-net nic,model=lan9118,macaddr=DE:AD:BE:EF:C4:2A -net tap,ifname=tap2,script=no,downscript=no"
+
+arm_now start armv5-eabi --add-qemu-options="-net nic,model=lan9118,macaddr=DE:AD:BE:EF:9D:80 -net tap,ifname=tap2,script=no,downscript=no"
+
+
+Nao precisei mais do abaixo
+route del default gw 10.0.2.2
+ifconfig eth0 down
+  ip link set eth0 address 52:54:00:12:34:99
+  ifconfig eth0 up
+  route del default gw 10.0.2.2
+  ifconfig eth0 192.168.1.89
+route add default gw 192.168.1.254
+  vi /etc/resolv.conf
+  ifconfig
+  ping www.google.com
+  ping 192.168.1.254
+  opkg install isc-dhcp-client-ipv4
+  
+==============================================================
+
+tunctl -t tap3 -u `whoami`
+ifconfig tap3
+brctl addif br0 tap3
+ip link set up dev tap3
+brctl show
+
+arm_now start mips32 --add-qemu-options="-net nic -net tap,ifname=tap3,script=no,downscript=no"
+
+  ifconfig eth0 down
+  ip link set eth0 address 52:54:00:12:34:57
+  ifconfig eth0 up
+  route del default gw 10.0.2.2
+  ifconfig eth0 192.168.1.42
+  
+  route add default gw 192.168.1.254
+  vi /etc/resolv.conf
+  ifconfig
+  ping www.google.com
+  ping 192.168.1.254
+  opkg install isc-dhcp-client-ipv4
+  dhclient
+
+==============================================================
+
+
+tunctl -t tap4 -u `whoami`
+ifconfig tap4
+brctl addif br0 tap4
+ip link set up dev tap4
+brctl show
+
+
+DE:AD:BE:EF:CD:9E
+->melhorrou!!!!!!!!!!!!!!!!!!!!
+Gerar MAC-> printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
+
+---> FUNCIONOU!
+arm_now start mips32el --add-qemu-options="-net nic,macaddr=DE:AD:BE:EF:CD:9E -net tap,ifname=tap4,script=no,downscript=no"
+
+
+arm_now start mips32el --add-qemu-options="-net nic -net tap,ifname=tap4,script=no,downscript=no"
+
+  ifconfig eth0 down
+  ip link set eth0 address 52:54:00:12:34:58
+  ifconfig eth0 up
+  route del default gw 10.0.2.2
+  ifconfig eth0 192.168.1.43
+  
+  route add default gw 192.168.1.254
+  vi /etc/resolv.conf
+  ifconfig
+  ping www.google.com
+  ping 192.168.1.254
+  opkg install isc-dhcp-client-ipv4
+  dhclient
+
+==============================================================
+
+tunctl -t tap5 -u `whoami`
+ifconfig tap5
+brctl addif br0 tap5
+ip link set up dev tap5
+brctl show
+
+arm_now start x86-i686 --add-qemu-options="-net nic -net tap,ifname=tap5,script=no,downscript=no"
+arm_now start x86-i686 --add-qemu-options="-net nic,model=e1000,macaddr=DE:AD:BE:EF:38:3D -net tap,ifname=tap5,script=no,downscript=no"
+
+  ifconfig eth0 down
+  ip link set eth0 address DE:AD:BE:EF:38:3D
+  ifconfig eth0 up
+  route del default gw 10.0.2.2
+  ifconfig eth0 192.168.1.64
+  route add default gw 192.168.1.254
+  vi /etc/resolv.conf
+  ifconfig
+  ping www.google.com
+  ping 192.168.1.254
+sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sysctl -w net.ipv6.conf.default.disable_ipv6=1
+  opkg install isc-dhcp-client-ipv4
+  dhclient
+
+
+  
+  
+==============================================================  
+  
+nios2 - sem suporte a rede
+  
+==============================================================
+tunctl -t tap6 -u `whoami`
+ifconfig tap6
+brctl addif br0 tap6
+ip link set up dev tap6
+brctl show
+
+
+Gerar MAC-> printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
+
+---> FUNCIONOU!
+arm_now start armv7-eabihf --add-qemu-options="-net nic,model=lan9118,macaddr=DE:AD:BE:EF:D6:62 -net tap,ifname=tap6,script=no,downscript=no"
+
+-> funciona também -> arm_now start armv7-eabihf --add-qemu-options="-net nic -net tap,ifname=tap6,script=no,downscript=no"
+
+  # para este da seg fault
+  NÃO!------------->ifconfig eth0 down
+  
+  route del default gw 10.0.2.2
+  ifconfig eth0 192.168.1.66
+  route add default gw 192.168.1.254
+  vi /etc/resolv.conf
+  ifconfig
+  ping www.google.com
+  ping 192.168.1.254
+  opkg install isc-dhcp-client-ipv4
+  dhclient
+  
+  
+  
+  
+  
+
+==============================================================
+  
+
+arm_now start mips32 --add-qemu-options="-net nic -net tap,ifname=tap0,script=no,downscript=no"
+
+
+\_ /usr/bin/python3 /usr/local/bin/arm_now start armv5-eabi
+root     30077  0.0  0.0   4396   804 pts/0    S+   00:57   0:00  |           \_ sh -c stty intr ^]        export QEMU_AUDIO_DRV="none"        qemu-system-arm -M vexpress-a9 -kernel arm_now/kernel -sd arm_now/rootfs.ext2 -append 'root=/dev/mmcblk0 console=ttyAMA0 rw physmap.enabled=0 noapic'                -m 256M                -nographic                -serial stdio -monitor null                  -dtb arm_now/dtb                -no-reboot        stty intr ^c    
+root     30079 43.1  1.6 1078964 135568 pts/0  Sl+  00:57   0:06  |               \_ qemu-system-arm -M vexpress-a9 -kernel arm_now/kernel -sd arm_now/rootfs.ext2 -append root=/dev/mmcblk0 console=ttyAMA0 rw physmap.enabled=0 noapic -m 256M -nographic -serial stdio -monitor null -dtb arm_now/dtb -no-reboot
+root     14396  0.0  0.0 105540  7180 ?        Ss   Sep14   0:02  \_ sshd: root@pts/3
+root     14402  0.0  0.0  21052  4960 pts/3    Ss   Sep14   0:00  |   \_ -bash
+root     30099  0.0  0.0  40612  3552 pts/3    R+   00:57   0:00  |       \_ ps -afxu --cols=20000
+root     12235  0.0  0.0 105540  7152 ?        Ss   Sep19   0:00  \_ sshd: root@pts/4
+root     12241  0.0  0.0  21052  4888 pts/4    Ss+  Sep19   0:00      \_ -bash
+root       646  0.0  0.0  13000  1756 tty1     Ss+  Aug25   0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
+root       698  0.0  0.0 363976  6344 ?        Ssl  Aug25   0:00 /usr/sbin/lightdm
+root       736  0.0  0.5 642904 48620 tty7     Ssl+ Aug25   5:13  \_ /usr/lib/xorg/Xorg :0 -seat seat0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch
+root      1137  0.0  0.0 237528  6552 ?        Sl   Aug25   0:00  \_ lightdm --session-child 16 19
+lightdm   1151  0.0  0.8 994240 71844 ?        Ssl  Aug25   8:56  |   \_ /usr/sbin/lightdm-gtk-greeter
+root      1205  0.0  0.0  91896  5024 ?        S    Aug25   0:00  \_ lightdm --session-child 12 19
+root       730  1.4  3.9 2437008 321364 ?      Ssl  Aug25 525:35 /usr/bin/suricata -D --af-packet -c /etc/suricata/suricata.yaml --pidfile /var/run/suricata.pid
+lightdm   1140  0.0  0.0  80704  7728 ?        Ss   Aug25   0:00 /lib/systemd/systemd --user
+lightdm   1141  0.0  0.0 252504  2440 ?        S    Aug25   0:00  \_ (sd-pam)
+lightdm   1157  0.0  0.0  47360  4164 ?        Ss   Aug25   0:00  \_ /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+
+
+
+==============================================================
+
+1 - Criar screen
+2 - Verificar a parte de bridge ( ver inicio do txt )
+3 - Subir as vms linux:
+
+3.1 - tunctl -t tap1 -u `whoami`
+3.2 - ifconfig tap1
+3.3 - brctl addif br0 tap1
+3.4 - ip link set up dev tap1
+3.5 - ifconfig tap1
+3.6 - brctl show
+3.7 - Gerar MAC-> printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
+3.8 - cd /usr/local/arm_now/ e depois mkdir ou cd / arm5-eabi-01
+3.8 - arm_now start armv5-eabi --add-qemu-options="-net nic,model=lan9118,macaddr=DE:AD:BE:EF:A9:26 -net tap,ifname=tap1,script=no,downscript=no"
+3.9 - Dentro da VM executar: dhclient
+
+
+3.1 - tunctl -t tap2 -u `whoami`
+3.2 - ifconfig tap2
+3.3 - brctl addif br0 tap2
+3.4 - ip link set up dev tap2
+3.5 - ifconfig tap2
+3.6 - brctl show
+3.7 - Gerar MAC-> printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
+3.8 - cd /usr/local/arm_now/mips32el-01/
+
+
+arm_now start mips32el --add-qemu-options="-net nic,macaddr=DE:AD:BE:EF:53:CF -net tap,ifname=tap2,script=no,downscript=no"
+
+3.9 - Dentro da VM executar: dhclient
+
+
+
+3.1 - tunctl -t tap3 -u `whoami`
+3.2 - ifconfig tap3
+3.3 - brctl addif br0 tap3
+3.4 - ip link set up dev tap3
+3.5 - ifconfig tap3
+3.6 - brctl show
+3.7 - Gerar MAC-> printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
+3.8 - cd /usr/local/arm_now/armv7-eabihf-01/
+
+
+arm_now start armv7-eabihf --add-qemu-options="-net nic,model=lan9118,macaddr=DE:AD:BE:EF:92:3E -net tap,ifname=tap3,script=no,downscript=no"
+
+3.9 - Dentro da VM executar: dhclient
+
+
+
+
+
+
+
+
+
+
+ brctl show
+ brctl addbr br0
+ ip addr flush dev eth3
+ brctl addif br0 eth3
+ tunctl -t tap0 -u `whoami`
+ ifconfig tap0
+ ip addr flush dev tap0
+ ifconfig tap0
+ brctl addif br0 tap0
+ brctl show
+ ifconfig eth3
+ ifconfig tap0
+ ifconfig br0
+ brctl show
+ dhclient -v br0
+ ifconfig br0
+ ifconfig tap0
+ ip link set up dev tap0
+ 
+ 
+/************************************************************/ 
+ 2005  tunctl -t tap1 -u `whoami`
+ 2006  ifconfig tap1
+ 2007  brctl addif br0 tap1
+ 2008  ip link set up dev tap1
+ 2009  brctl show
+ 
+Dentro da VM arm_now:
+
+  37 cd /etc/
+  38 fgrep -r -i '10.0.2.' *
+  route del default gw 10.0.2.2
+  vi init.d/S40_network
+  ifconfig eth0 192.168.1.67
+  route add default gw 192.168.1.254
+  vi /etc/resolv.conf
+  47 ifconfig
+  48 ping www.google.com
+  49 ping 192.168.1.254
+  50 history
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  arm_now start armv5-eabi --add-qemu-options="-net nic -net tap,ifname=tap1,script=no,downscript=no"
+  
+  #manual
+  Alterar resolv.conf
+  route del default gw 10.0.2.2
+  ifconfig eth0 192.168.1.67
+  
+  #dhclient
+  route add default gw 192.168.1.254
+
+  
+  1 - Fazer o script do auto-start
+  2 - Alterar o path para poder rodar mais de 1 arm_now
