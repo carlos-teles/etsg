@@ -1,0 +1,989 @@
+cteles@cteles-Latitude-E6440:~$ ifconfig 
+eno1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.101  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::2413:f8df:9426:632c  prefixlen 64  scopeid 0x20<link>
+        ether 20:47:47:ab:52:d3  txqueuelen 1000  (Ethernet)
+        RX packets 3067  bytes 2912233 (2.9 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2229  bytes 780577 (780.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 20  memory 0xf7c00000-f7c20000  
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Loopback Local)
+        RX packets 589  bytes 45834 (45.8 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 589  bytes 45834 (45.8 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.123.1  netmask 255.255.255.0  broadcast 192.168.123.255
+        ether 52:54:00:4d:6b:b0  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+cteles@cteles-Latitude-E6440:~$ ifconfig eno1
+eno1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.101  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::2413:f8df:9426:632c  prefixlen 64  scopeid 0x20<link>
+        ether 20:47:47:ab:52:d3  txqueuelen 1000  (Ethernet)
+        RX packets 3069  bytes 2912361 (2.9 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2229  bytes 780577 (780.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 20  memory 0xf7c00000-f7c20000  
+
+cteles@cteles-Latitude-E6440:~$ sudo su -
+[sudo] senha para cteles: 
+root@cteles-Latitude-E6440:~# brctl addbr br0
+root@cteles-Latitude-E6440:~# brctl show
+bridge name	bridge id		STP enabled	interfaces
+br0		8000.000000000000	no		
+virbr0		8000.5254004d6bb0	yes		virbr0-nic
+root@cteles-Latitude-E6440:~# brctl addif br0 eno1
+root@cteles-Latitude-E6440:~# brctl show
+bridge name	bridge id		STP enabled	interfaces
+br0		8000.204747ab52d3	no		eno1
+virbr0		8000.5254004d6bb0	yes		virbr0-nic
+root@cteles-Latitude-E6440:~# route add default gw 192.168.1.^C
+root@cteles-Latitude-E6440:~# dhclient -v br0
+Internet Systems Consortium DHCP Client 4.3.5
+Copyright 2004-2016 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/br0/20:47:47:ab:52:d3
+Sending on   LPF/br0/20:47:47:ab:52:d3
+Sending on   Socket/fallback
+DHCPDISCOVER on br0 to 255.255.255.255 port 67 interval 3 (xid=0xa76d2c66)
+DHCPREQUEST of 192.168.1.101 on br0 to 255.255.255.255 port 67 (xid=0x662c6da7)
+DHCPOFFER of 192.168.1.101 from 192.168.1.1
+DHCPACK of 192.168.1.101 from 192.168.1.1
+bound to 192.168.1.101 -- renewal in 33839 seconds.
+root@cteles-Latitude-E6440:~# ifconfig 
+br0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.101  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::2247:47ff:feab:52d3  prefixlen 64  scopeid 0x20<link>
+        ether 20:47:47:ab:52:d3  txqueuelen 1000  (Ethernet)
+        RX packets 361  bytes 43262 (43.2 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 416  bytes 646930 (646.9 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+eno1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.101  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::2413:f8df:9426:632c  prefixlen 64  scopeid 0x20<link>
+        ether 20:47:47:ab:52:d3  txqueuelen 1000  (Ethernet)
+        RX packets 9388  bytes 9188783 (9.1 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 7009  bytes 2615262 (2.6 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 20  memory 0xf7c00000-f7c20000  
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Loopback Local)
+        RX packets 755  bytes 60521 (60.5 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 755  bytes 60521 (60.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.123.1  netmask 255.255.255.0  broadcast 192.168.123.255
+        ether 52:54:00:4d:6b:b0  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+root@cteles-Latitude-E6440:~# cd /usr/local/
+root@cteles-Latitude-E6440:/usr/local# mkdir armnow
+root@cteles-Latitude-E6440:/usr/local# cd armnow/
+root@cteles-Latitude-E6440:/usr/local/armnow# ls -ltra
+total 8
+drwxr-xr-x 26 root root 4096 mai 12 16:44 ..
+drwxr-xr-x  2 root root 4096 mai 12 16:44 .
+root@cteles-Latitude-E6440:/usr/local/armnow# tunctl -t tap2 -u `whoami`
+Set 'tap2' persistent and owned by uid 0
+root@cteles-Latitude-E6440:/usr/local/armnow# ifconfig tap2
+tap2: flags=4098<BROADCAST,MULTICAST>  mtu 1500
+        ether 7e:46:a8:49:eb:67  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+root@cteles-Latitude-E6440:/usr/local/armnow# brctl addif br0 tap2
+root@cteles-Latitude-E6440:/usr/local/armnow# ip link set up dev tap2
+root@cteles-Latitude-E6440:/usr/local/armnow# brctl show
+bridge name	bridge id		STP enabled	interfaces
+br0		8000.204747ab52d3	no		eno1
+							tap2
+virbr0		8000.5254004d6bb0	yes		virbr0-nic
+root@cteles-Latitude-E6440:/usr/local/armnow# arm_now start armv5-eabi --add-qemu-options="-net nic,model=lan9118,macaddr=DE:AD:BE:EF:C4:2A -net tap,ifname=tap2,script=no,downscript=no"
+arm_now: comando não encontrado
+root@cteles-Latitude-E6440:/usr/local/armnow# pip3 install https://github.com/nongiach/arm_now/archive/master.zip --upgrade
+
+Command 'pip3' not found, but can be installed with:
+
+apt install python3-pip
+
+root@cteles-Latitude-E6440:/usr/local/armnow# pip list
+Package                      Version      
+---------------------------- -------------
+argh                         0.26.2       
+asn1crypto                   0.24.0       
+backports.ssl-match-hostname 3.5.0.1      
+beautifulsoup4               4.6.0        
+cached-property              1.3.1        
+cassandra-driver             3.9.0        
+certifi                      2018.1.18    
+chardet                      3.0.4        
+cryptography                 2.1.4        
+cstruct                      1.7          
+Cython                       0.29         
+defer                        1.0.6        
+dnspython                    1.15.0       
+docker                       2.5.1        
+docker-compose               1.17.1       
+docker-pycreds               0.2.1        
+dockerpty                    0.4.1        
+docopt                       0.6.2        
+enum34                       1.1.6        
+funcsigs                     1.0.2        
+functools32                  3.2.3.post2  
+futures                      3.1.1        
+google-api-python-client     1.6.2        
+GoSync                       0.4          
+graphs                       0.1.3        
+html5lib                     0.999999999  
+httplib2                     0.10.3       
+idna                         2.6          
+ipaddr                       2.2.0        
+ipaddress                    1.0.17       
+jefferson                    0.2          
+jsonschema                   2.6.0        
+keyring                      10.6.0       
+keyrings.alt                 3.0          
+libvirt-python               4.0.0        
+lxml                         4.2.1        
+mock                         2.0.0        
+numpy                        1.13.0       
+oauth2client                 4.1.2        
+pandas                       0.21.0       
+pathtools                    0.1.2        
+pbr                          3.1.1        
+pip                          10.0.1       
+psutil                       5.4.2        
+psycopg2                     2.7.7        
+pyasn1                       0.2.3        
+pyasn1-modules               0.0.9        
+pycairo                      1.16.2       
+pycrypto                     2.6.1        
+PyDrive                      1.3.1        
+pygobject                    3.26.1       
+pygpgme                      0.3          
+pyliblzma                    0.5.3        
+pyodbc                       4.0.16       
+pyOpenSSL                    17.5.0       
+pysqlite                     2.7.0        
+python-apt                   1.6.3+ubuntu1
+python-dateutil              2.6.1        
+python-debian                0.1.32       
+pytz                         2017.3       
+pyxdg                        0.25         
+PyYAML                       3.12         
+requests                     2.18.4       
+rsa                          3.4.2        
+scikit-learn                 0.20.0       
+scipy                        0.19.1       
+SecretStorage                2.3.1        
+setuptools                   39.0.1       
+six                          1.11.0       
+texttable                    0.9.1        
+udev-discover                0.2.2        
+unity-lens-photos            1.0          
+uritemplate                  3.0.0        
+urllib3                      1.22         
+virtualenv                   15.1.0       
+watchdog                     0.8.3        
+webencodings                 0.5          
+websocket-client             0.44.0       
+wheel                        0.30.0       
+You are using pip version 10.0.1, however version 19.1.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+root@cteles-Latitude-E6440:/usr/local/armnow# pip
+pip     pip2    pip2.7  
+root@cteles-Latitude-E6440:/usr/local/armnow# python
+python              python2.7-config    python2-pbr         python3.5           python3.6-config    python3-config      python-config       
+python2             python2-config      python2-wsdump      python3.5m          python3.6m          python3m            pythontex           
+python2.7           python2-jsonschema  python3             python3.6           python3.6m-config   python3m-config     pythontex3          
+root@cteles-Latitude-E6440:/usr/local/armnow# python^C
+root@cteles-Latitude-E6440:/usr/local/armnow# virtual
+virtualbox  virtualenv  
+root@cteles-Latitude-E6440:/usr/local/armnow# virtualenv -p python3.6 arm-now
+Running virtualenv with interpreter /usr/bin/python3.6
+Using base prefix '/usr'
+New python executable in /usr/local/armnow/arm-now/bin/python3.6
+Also creating executable in /usr/local/armnow/arm-now/bin/python
+Installing setuptools, pip, wheel...done.
+root@cteles-Latitude-E6440:/usr/local/armnow# cd arm-now/
+root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# source bin/activate
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# python
+Python 3.6.7 (default, Oct 22 2018, 11:32:17) 
+[GCC 8.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# pip list
+Package    Version
+---------- -------
+pip        19.1.1 
+setuptools 41.0.1 
+wheel      0.33.4 
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# pip install https://github.com/nongiach/arm_now/archive/master.zip --upgrade
+Collecting https://github.com/nongiach/arm_now/archive/master.zip
+  Downloading https://github.com/nongiach/arm_now/archive/master.zip
+     - 296kB 730kB/s
+Collecting exall (from arm-now==1.24)
+  Downloading https://files.pythonhosted.org/packages/b5/0d/7f13accb328b8ceead5264c119f47619bc96e6ad09fa7236499a5d6a04dc/exall-0.11.tar.gz
+Collecting requests (from arm-now==1.24)
+  Downloading https://files.pythonhosted.org/packages/7d/e3/20f3d364d6c8e5d2353c72a67778eb189176f08e873c9900e10c0287b84b/requests-2.21.0-py2.py3-none-any.whl (57kB)
+     |████████████████████████████████| 61kB 1.2MB/s 
+Collecting docopt (from arm-now==1.24)
+  Downloading https://files.pythonhosted.org/packages/a2/55/8f8cab2afd404cf578136ef2cc5dfb50baa1761b68c9da1fb1e4eed343c9/docopt-0.6.2.tar.gz
+Collecting pySmartDL (from arm-now==1.24)
+  Downloading https://files.pythonhosted.org/packages/5a/af/73c93b85fa05f6f49473e276c1d2602985f71d81bb82c8400c39c772f4ae/pySmartDL-1.3.1-py3-none-any.whl
+Collecting python-magic (from arm-now==1.24)
+  Downloading https://files.pythonhosted.org/packages/42/a1/76d30c79992e3750dac6790ce16f056f870d368ba142f83f75f694d93001/python_magic-0.4.15-py2.py3-none-any.whl
+Collecting chardet<3.1.0,>=3.0.2 (from requests->arm-now==1.24)
+  Downloading https://files.pythonhosted.org/packages/bc/a9/01ffebfb562e4274b6487b4bb1ddec7ca55ec7510b22e4c51f14098443b8/chardet-3.0.4-py2.py3-none-any.whl (133kB)
+     |████████████████████████████████| 143kB 1.8MB/s 
+Collecting certifi>=2017.4.17 (from requests->arm-now==1.24)
+  Downloading https://files.pythonhosted.org/packages/60/75/f692a584e85b7eaba0e03827b3d51f45f571c2e793dd731e598828d380aa/certifi-2019.3.9-py2.py3-none-any.whl (158kB)
+     |████████████████████████████████| 163kB 1.5MB/s 
+Collecting urllib3<1.25,>=1.21.1 (from requests->arm-now==1.24)
+  Downloading https://files.pythonhosted.org/packages/01/11/525b02e4acc0c747de8b6ccdab376331597c569c42ea66ab0a1dbd36eca2/urllib3-1.24.3-py2.py3-none-any.whl (118kB)
+     |████████████████████████████████| 122kB 1.5MB/s 
+Collecting idna<2.9,>=2.5 (from requests->arm-now==1.24)
+  Downloading https://files.pythonhosted.org/packages/14/2c/cd551d81dbe15200be1cf41cd03869a46fe7226e7450af7a6545bfc474c9/idna-2.8-py2.py3-none-any.whl (58kB)
+     |████████████████████████████████| 61kB 1.4MB/s 
+Building wheels for collected packages: arm-now, exall, docopt
+  Building wheel for arm-now (setup.py) ... done
+  Stored in directory: /tmp/pip-ephem-wheel-cache-qi3n99qu/wheels/e1/ae/85/56c2c94cb95757a1492565215804bf3259af869e2b59a671ce
+  Building wheel for exall (setup.py) ... done
+  Stored in directory: /root/.cache/pip/wheels/53/61/0e/51bef0dc7d7edee331d2a117fc473c41c7572e0e9033b62477
+  Building wheel for docopt (setup.py) ... done
+  Stored in directory: /root/.cache/pip/wheels/9b/04/dd/7daf4150b6d9b12949298737de9431a324d4b797ffd63f526e
+Successfully built arm-now exall docopt
+Installing collected packages: exall, chardet, certifi, urllib3, idna, requests, docopt, pySmartDL, python-magic, arm-now
+Successfully installed arm-now-1.24 certifi-2019.3.9 chardet-3.0.4 docopt-0.6.2 exall-0.11 idna-2.8 pySmartDL-1.3.1 python-magic-0.4.15 requests-2.21.0 urllib3-1.24.3
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# arm
+arm2hpdl                        arm-linux-gnueabi-gcc-nm        arm-linux-gnueabi-ld.gold       arm-none-eabi-c++filt           arm-none-eabi-ld
+arm-linux-gnueabi-addr2line     arm-linux-gnueabi-gcc-nm-7      arm-linux-gnueabi-nm            arm-none-eabi-cpp               arm-none-eabi-ld.bfd
+arm-linux-gnueabi-ar            arm-linux-gnueabi-gcc-ranlib    arm-linux-gnueabi-objcopy       arm-none-eabi-elfedit           arm-none-eabi-nm
+arm-linux-gnueabi-as            arm-linux-gnueabi-gcc-ranlib-7  arm-linux-gnueabi-objdump       arm-none-eabi-g++               arm-none-eabi-objcopy
+arm-linux-gnueabi-c++filt       arm-linux-gnueabi-gcov          arm-linux-gnueabi-ranlib        arm-none-eabi-gcc               arm-none-eabi-objdump
+arm-linux-gnueabi-cpp           arm-linux-gnueabi-gcov-7        arm-linux-gnueabi-readelf       arm-none-eabi-gcc-6.3.1         arm-none-eabi-ranlib
+arm-linux-gnueabi-cpp-7         arm-linux-gnueabi-gcov-dump     arm-linux-gnueabi-size          arm-none-eabi-gcc-ar            arm-none-eabi-readelf
+arm-linux-gnueabi-dwp           arm-linux-gnueabi-gcov-dump-7   arm-linux-gnueabi-strings       arm-none-eabi-gcc-nm            arm-none-eabi-size
+arm-linux-gnueabi-elfedit       arm-linux-gnueabi-gcov-tool     arm-linux-gnueabi-strip         arm-none-eabi-gcc-ranlib        arm-none-eabi-strings
+arm-linux-gnueabi-gcc           arm-linux-gnueabi-gcov-tool-7   arm-none-eabi-addr2line         arm-none-eabi-gcov              arm-none-eabi-strip
+arm-linux-gnueabi-gcc-7         arm-linux-gnueabi-gprof         arm-none-eabi-ar                arm-none-eabi-gcov-dump         arm_now
+arm-linux-gnueabi-gcc-ar        arm-linux-gnueabi-ld            arm-none-eabi-as                arm-none-eabi-gcov-tool         
+arm-linux-gnueabi-gcc-ar-7      arm-linux-gnueabi-ld.bfd        arm-none-eabi-c++               arm-none-eabi-gprof             
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# arm_now 
+Usage:
+  arm_now list [--all]
+  arm_now start [<arch>] [--clean] [-s|--sync] [--offline]
+                [--autostart=<script>] [--add-qemu-options=<options>]
+                [--real-source] [--redir=<port>]...
+  arm_now clean
+  arm_now resize <new_size> [--correct]
+  arm_now install [<arch>] [--clean] [--real-source]
+  arm_now show
+  arm_now offline
+  arm_now -h | --help
+  arm_now --version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Commands:
+  list          List all available images for all cpu.
+  start         Start a vm with a <arch> cpu. (default: armv5-eabi)
+  resize        Resize the current rootfs. (example: arm_now resize 1G, or +1G)
+  clean         Delete the current rootfs.
+  install       Download, install and config a rootfs for the given <arch>. (default: armv5-eabi)
+  show          Show informations about the rootfs.
+  offline       Download all rootfs and kernel so arm_now can be fully runned offline.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Options:
+  --sync                        Synchronize the current directory with the vm home.
+  --redir protocol:host::guest  Redirect the host port to the guest (example: --redir tcp:8000::80)
+  --clean                       Clean the current image before starting.
+  --add-qemu-options=<options>  Add options to qemu-system-<arch>.
+                     (example: --add-qemu-options="-sandbox on" to Enable seccomp mode 2 system call filter )
+  --autostart=<script>          At startup <script> is uploaded and executed inside the vm.
+  --syncpath=<path>             Synchronize the <path> directory with the vm home.
+  --syncroot=<path>             Synchronize the <path> directory with the vm root.
+                            (Only if you need to modify the linux vm config)
+  --offline                     Start with zero internet request.
+  --correct                     Correct the filesystem after resize.
+  -h --help                     Show this screen.
+  --version                     Show version.
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# arm_now list
+aarch64
+armv5-eabi
+armv6-eabihf
+armv7-eabihf
+m68k-coldfire
+microblazebe
+microblazeel
+mips32
+mips32el
+mips32r5el
+mips32r6el
+mips64-n32
+mips64el-n32
+nios2
+powerpc64-e5500
+powerpc64-power8
+powerpc64le-power8
+sh-sh4
+x86-64-core-i7
+x86-core2
+x86-i686
+xtensa-lx60
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# arm_now start armv5-eabi --add-qemu-options="-net nic,model=lan9118,macaddr=DE:AD:BE:EF:C4:2A -net tap,ifname=tap2,script=no,downscript=no"
+
+Downloading /root/.config/arm_now/templates/armv5-eabi.tar.xz from https://github.com/nongiach/arm_now_templates/raw/master/armv5-eabi.tar.xz
+[*] 12.2 MB / 12.2 MB @ 2.5 MB/s [##################] [100%, 0s left]    
+[+] Installed
+File not found by ext2_lookup
+WARNING: e2rm file already suppressed
+File not found by ext2_lookup
+WARNING: e2rm file already suppressed
+Tempdir /tmp/tmpdsbndwue
+Starting qemu-system-arm
+stty intr ^]
+       export QEMU_AUDIO_DRV="none"
+       qemu-system-arm -M vexpress-a9 -kernel arm_now/kernel -sd arm_now/rootfs.ext2 -append 'root=/dev/mmcblk0 console=ttyAMA0 rw physmap.enabled=0 noapic'                -m 256M                -nographic                -serial stdio -monitor null -net nic,model=lan9118,macaddr=DE:AD:BE:EF:C4:2A -net tap,ifname=tap2,script=no,downscript=no                 -dtb arm_now/dtb                -no-reboot
+       stty intr ^c
+    
+WARNING: Image format was not specified for 'arm_now/rootfs.ext2' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+Booting Linux on physical CPU 0x0
+Linux version 4.11.3 (root@runner-4e4528ca-project-3290221-concurrent-0) (gcc version 6.4.0 (Buildroot 2018.02-rc2-00006-g39101b7) ) #1 SMP Sun Mar 4 00:49:28 UTC 2018
+CPU: ARMv7 Processor [410fc090] revision 0 (ARMv7), cr=10c5387d
+CPU: PIPT / VIPT nonaliasing data cache, VIPT nonaliasing instruction cache
+OF: fdt: Machine model: V2P-CA9
+Memory policy: Data cache writeback
+CPU: All CPU(s) started in SVC mode.
+percpu: Embedded 15 pages/cpu @8fdb2000 s31628 r8192 d21620 u61440
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 65024
+Kernel command line: root=/dev/mmcblk0 console=ttyAMA0 rw physmap.enabled=0 noapic
+log_buf_len individual max cpu contribution: 4096 bytes
+log_buf_len total cpu_extra contributions: 12288 bytes
+log_buf_len min size: 16384 bytes
+log_buf_len: 32768 bytes
+early log buf free: 14940(91%)
+PID hash table entries: 1024 (order: 0, 4096 bytes)
+Dentry cache hash table entries: 32768 (order: 5, 131072 bytes)
+Inode-cache hash table entries: 16384 (order: 4, 65536 bytes)
+Memory: 250960K/262144K available (5120K kernel code, 171K rwdata, 1216K rodata, 1024K init, 158K bss, 11184K reserved, 0K cma-reserved)
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+    vmalloc : 0x90800000 - 0xff800000   (1776 MB)
+    lowmem  : 0x80000000 - 0x90000000   ( 256 MB)
+    modules : 0x7f000000 - 0x80000000   (  16 MB)
+      .text : 0x80008000 - 0x80600000   (6112 kB)
+      .init : 0x80800000 - 0x80900000   (1024 kB)
+      .data : 0x80900000 - 0x8092af00   ( 172 kB)
+       .bss : 0x8092c000 - 0x80953b34   ( 159 kB)
+SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+Hierarchical RCU implementation.
+	RCU debugfs-based tracing is enabled.
+	Build-time adjustment of leaf fanout to 32.
+	RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=4.
+RCU: Adjusting geometry for rcu_fanout_leaf=32, nr_cpu_ids=4
+NR_IRQS:16 nr_irqs:16 16
+GIC CPU mask not found - kernel will fail to boot.
+GIC CPU mask not found - kernel will fail to boot.
+L2C: platform modifies aux control register: 0x02020000 -> 0x02420000
+L2C: DT/platform modifies aux control register: 0x02020000 -> 0x02420000
+L2C-310 enabling early BRESP for Cortex-A9
+L2C-310 full line of zeros enabled for Cortex-A9
+L2C-310 dynamic clock gating disabled, standby mode disabled
+L2C-310 cache controller enabled, 8 ways, 128 kB
+L2C-310: CACHE_ID 0x410000c8, AUX_CTRL 0x46420001
+smp_twd: clock not found -2
+sched_clock: 32 bits at 24MHz, resolution 41ns, wraps every 89478484971ns
+clocksource: arm,sp804: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275 ns
+Failed to initialize '/smb@04000000/motherboard/iofpga@7,00000000/timer@12000': -22
+Console: colour dummy device 80x30
+Calibrating local timer... 95.01MHz.
+Calibrating delay loop... 646.34 BogoMIPS (lpj=3231744)
+pid_max: default: 32768 minimum: 301
+Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)
+Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes)
+CPU: Testing write buffer coherency: ok
+CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+Setting up static identity map for 0x60100000 - 0x60100058
+smp: Bringing up secondary CPUs ...
+smp: Brought up 1 node, 1 CPU
+SMP: Total of 1 processors activated (646.34 BogoMIPS).
+CPU: All CPU(s) started in SVC mode.
+devtmpfs: initialized
+VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 0
+clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+futex hash table entries: 1024 (order: 4, 65536 bytes)
+NET: Registered protocol family 16
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+cpuidle: using governor ladder
+hw-breakpoint: debug architecture 0x4 unsupported.
+Serial: AMBA PL011 UART driver
+OF: amba_device_add() failed (-19) for /memory-controller@100e0000
+OF: amba_device_add() failed (-19) for /memory-controller@100e1000
+OF: amba_device_add() failed (-19) for /watchdog@100e5000
+irq: type mismatch, failed to map hwirq-75 for /interrupt-controller@1e001000!
+10009000.uart: ttyAMA0 at MMIO 0x10009000 (irq = 38, base_baud = 0) is a PL011 rev1
+console [ttyAMA0] enabled
+1000a000.uart: ttyAMA1 at MMIO 0x1000a000 (irq = 39, base_baud = 0) is a PL011 rev1
+1000b000.uart: ttyAMA2 at MMIO 0x1000b000 (irq = 40, base_baud = 0) is a PL011 rev1
+1000c000.uart: ttyAMA3 at MMIO 0x1000c000 (irq = 41, base_baud = 0) is a PL011 rev1
+OF: amba_device_add() failed (-19) for /smb@04000000/motherboard/iofpga@7,00000000/wdt@0f000
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+Advanced Linux Sound Architecture Driver Initialized.
+clocksource: Switched to clocksource arm,sp804
+NET: Registered protocol family 2
+TCP established hash table entries: 2048 (order: 1, 8192 bytes)
+TCP bind hash table entries: 2048 (order: 2, 16384 bytes)
+TCP: Hash tables configured (established 2048 bind 2048)
+UDP hash table entries: 256 (order: 1, 8192 bytes)
+UDP-Lite hash table entries: 256 (order: 1, 8192 bytes)
+NET: Registered protocol family 1
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+hw perfevents: enabled with armv7_cortex_a9 PMU driver, 1 counters available
+workingset: timestamp_bits=30 max_order=16 bucket_order=0
+squashfs: version 4.0 (2009/01/31) Phillip Lougher
+jffs2: version 2.2. (NAND) © 2001-2006 Red Hat, Inc.
+9p: Installing v9fs 9p2000 file system support
+io scheduler noop registered (default)
+io scheduler mq-deadline registered
+clcd-pl11x 10020000.clcd: PL111 designer 41 rev2 at 0x10020000
+clcd-pl11x 10020000.clcd: /clcd@10020000 hardware, 1024x768@59 display
+Console: switching to colour frame buffer device 128x48
+clcd-pl11x 1001f000.clcd: PL111 designer 41 rev2 at 0x1001f000
+clcd-pl11x 1001f000.clcd: /smb@04000000/motherboard/iofpga@7,00000000/clcd@1f000 hardware, 640x480@59 display
+40000000.flash: Found 2 x16 devices at 0x0 in 32-bit bank. Manufacturer ID 0x000000 Chip ID 0x000000
+Intel/Sharp Extended Query Table at 0x0031
+Using buffer write method
+40000000.flash: Found 2 x16 devices at 0x0 in 32-bit bank. Manufacturer ID 0x000000 Chip ID 0x000000
+Intel/Sharp Extended Query Table at 0x0031
+Using buffer write method
+Concatenating MTD devices:
+(0): "40000000.flash"
+(1): "40000000.flash"
+into device "40000000.flash"
+libphy: Fixed MDIO Bus: probed
+libphy: smsc911x-mdio: probed
+smsc911x 4e000000.ethernet eth0: MAC Address: de:ad:be:ef:c4:2a
+isp1760 4f000000.usb: bus width: 32, oc: digital
+isp1760 4f000000.usb: NXP ISP1760 USB Host Controller
+isp1760 4f000000.usb: new USB bus registered, assigned bus number 1
+isp1760 4f000000.usb: Scratch test failed.
+isp1760 4f000000.usb: can't setup: -19
+isp1760 4f000000.usb: USB bus 1 deregistered
+usbcore: registered new interface driver usb-storage
+rtc-pl031 10017000.rtc: rtc core: registered pl031 as rtc0
+mmci-pl18x 10005000.mmci: Got CD GPIO
+mmci-pl18x 10005000.mmci: Got WP GPIO
+mmci-pl18x 10005000.mmci: mmc0: PL181 manf 41 rev0 at 0x10005000 irq 34,35 (pio)
+mmc0: new SD card at address 4567
+ledtrig-cpu: registered to indicate activity on CPUs
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+mmcblk0: mmc0:4567 QEMU! 100 MiB 
+input: AT Raw Set 2 keyboard as /devices/platform/smb@04000000/smb@04000000:motherboard/smb@04000000:motherboard:iofpga@7,00000000/10006000.kmi/serio0/input/input0
+aaci-pl041 10004000.aaci: ARM AC'97 Interface PL041 rev0 at 0x10004000, irq 33
+aaci-pl041 10004000.aaci: FIFO 512 entries
+oprofile: using arm/armv7-ca9
+NET: Registered protocol family 17
+9pnet: Installing 9P2000 support
+Registering SWP/SWPB emulation handler
+rtc-pl031 10017000.rtc: setting system clock to 2019-05-12 19:49:30 UTC (1557690570)
+ALSA device list:
+  #0: ARM AC'97 Interface PL041 rev0 at 0x10004000, irq 33
+input: ImExPS/2 Generic Explorer Mouse as /devices/platform/smb@04000000/smb@04000000:motherboard/smb@04000000:motherboard:iofpga@7,00000000/10007000.kmi/serio1/input/input2
+EXT4-fs (mmcblk0): couldn't mount as ext3 due to feature incompatibilities
+random: fast init done
+EXT4-fs (mmcblk0): mounted filesystem without journal. Opts: (null)
+VFS: Mounted root (ext4 filesystem) on device 179:0.
+devtmpfs: mounted
+Freeing unused kernel memory: 1024K
+random: crng init done
+EXT4-fs (mmcblk0): re-mounted. Opts: block_validity,delalloc,barrier,user_xattr
+Starting logging: OK
+Initializing random number generator... done.
+Generic PHY 4e000000.ethernet-ffffffff:01: attached PHY driver [Generic PHY] (mii_bus:phy_addr=4e000000.ethernet-ffffffff:01, irq=-1)
+smsc911x 4e000000.ethernet eth0: SMSC911x/921x identified at 0x91390000, IRQ: 31
+press ctrl+] to kill qemu
+
+Welcome to arm_now
+buildroot login: root
+# ifconfig 
+eth0      Link encap:Ethernet  HWaddr DE:AD:BE:EF:C4:2A  
+          inet addr:10.0.2.15  Bcast:10.255.255.255  Mask:255.0.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:4 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:240 (240.0 B)  TX bytes:0 (0.0 B)
+          Interrupt:31 
+
+# ifconfig down eth0
+
+
+
+ifconfig: bad address 'eth0'
+# 
+# 
+# 
+# ]
+-sh: ]: not found
+# ifconfig 
+eth0      Link encap:Ethernet  HWaddr DE:AD:BE:EF:C4:2A  
+          inet addr:10.0.2.15  Bcast:10.255.255.255  Mask:255.0.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:19 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:6 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:2272 (2.2 KiB)  TX bytes:252 (252.0 B)
+          Interrupt:31 
+
+# ping www.google.com
+^C
+# poweroff 
+# ls: /etc/init.d/K??*: No such file or directory
+umount: can't remount tmpfs read-only
+umount: devtmpfs busy - remounted read-only
+EXT4-fs (mmcblk0): re-mounted. Opts: (null)
+The system is going down NOW!
+Sent SIGTERM to all processes
+Sent SIGKILL to all processes
+Requesting system poweroff
+reboot: Power down
++++++++++++++++++++++++++++ Checking the filesystem ++++++++++++++++++++++++++++
+e2fsck 1.44.1 (24-Mar-2018)
+Passo 1: Verificando inodes, blocks, e os tamanhos.
+Passo 2: Verificando estrutura directory
+Passo 3: Checando conectividade com o directory
+Passo 4: Checando contagens de referência
+Passo 5: Procurando informações de resumo group
+
+         918 inodes used (3.68%, out of 24960)
+          44 non-contiguous files (4.8%)
+           4 non-contiguous directories (0.4%)
+             # of inodes with ind/dind/tind blocks: 60/18/0
+       26264 blocks used (25.65%, out of 102400)
+           0 bad blocks
+           0 large files
+
+         349 regular files
+          77 directories
+           1 character device file
+           0 block device files
+           0 fifos
+           0 links
+         482 symbolic links (474 fast symbolic links)
+           0 sockets
+------------
+         909 files
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# 
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# 
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# ifconfig -a
+br0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.101  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::2247:47ff:feab:52d3  prefixlen 64  scopeid 0x20<link>
+        ether 20:47:47:ab:52:d3  txqueuelen 1000  (Ethernet)
+        RX packets 19530  bytes 27075441 (27.0 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 14401  bytes 2818815 (2.8 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+eno1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.101  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::2413:f8df:9426:632c  prefixlen 64  scopeid 0x20<link>
+        ether 20:47:47:ab:52:d3  txqueuelen 1000  (Ethernet)
+        RX packets 31087  bytes 36780529 (36.7 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 21396  bytes 4878386 (4.8 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 20  memory 0xf7c00000-f7c20000  
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Loopback Local)
+        RX packets 1111  bytes 95548 (95.5 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1111  bytes 95548 (95.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+tap2: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet6 fe80::7c46:a8ff:fe49:eb67  prefixlen 64  scopeid 0x20<link>
+        ether 7e:46:a8:49:eb:67  txqueuelen 1000  (Ethernet)
+        RX packets 12  bytes 504 (504.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 132  bytes 19785 (19.7 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.123.1  netmask 255.255.255.0  broadcast 192.168.123.255
+        ether 52:54:00:4d:6b:b0  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0-nic: flags=4098<BROADCAST,MULTICAST>  mtu 1500
+        ether 52:54:00:4d:6b:b0  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlp3s0: flags=4098<BROADCAST,MULTICAST>  mtu 1500
+        ether 80:00:0b:d9:50:d5  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wwp0s20u10c2i12: flags=4226<BROADCAST,NOARP,MULTICAST>  mtu 1500
+        ether be:ab:71:0d:ae:2c  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# tunctl -t tap1 -u `whoami^C
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# brctl show
+bridge name	bridge id		STP enabled	interfaces
+br0		8000.204747ab52d3	no		eno1
+							tap2
+virbr0		8000.5254004d6bb0	yes		virbr0-nic
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# brctl 
+Usage: brctl [commands]
+commands:
+	addbr     	<bridge>		add bridge
+	delbr     	<bridge>		delete bridge
+	addif     	<bridge> <device>	add interface to bridge
+	delif     	<bridge> <device>	delete interface from bridge
+	hairpin   	<bridge> <port> {on|off}	turn hairpin on/off
+	setageing 	<bridge> <time>		set ageing time
+	setbridgeprio	<bridge> <prio>		set bridge priority
+	setfd     	<bridge> <time>		set bridge forward delay
+	sethello  	<bridge> <time>		set hello time
+	setmaxage 	<bridge> <time>		set max message age
+	setpathcost	<bridge> <port> <cost>	set path cost
+	setportprio	<bridge> <port> <prio>	set port priority
+	show      	[ <bridge> ]		show a list of bridges
+	showmacs  	<bridge>		show a list of mac addrs
+	showstp   	<bridge>		show bridge stp info
+	stp       	<bridge> {on|off}	turn stp on/off
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# brctl delif virbr0
+Incorrect number of arguments for command
+Usage: brctl delif <bridge> <device>	delete interface from bridge
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# brctl delif br0 virbr0
+device virbr0 is not a slave of br0
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# tunctl -t tap1 -u `whoami`
+Set 'tap1' persistent and owned by uid 0
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# ifconfig tap1
+tap1: flags=4098<BROADCAST,MULTICAST>  mtu 1500
+        ether 6e:ce:3a:fa:08:a1  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# brctl addif br0 tap1
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# ip link set up dev tap1
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# ifconfig tap1
+tap1: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        ether 6e:ce:3a:fa:08:a1  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# brctl show
+bridge name	bridge id		STP enabled	interfaces
+br0		8000.204747ab52d3	no		eno1
+							tap1
+							tap2
+virbr0		8000.5254004d6bb0	yes		virbr0-nic
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
+DE:AD:BE:EF:C1:13
+(arm-now) root@cteles-Latitude-E6440:/usr/local/armnow/arm-now# arm_now start armv5-eabi --add-qemu-options="-net nic,model=lan9118,macaddr=DE:AD:BE:EF:A9:26 -net tap,ifname=tap1,script=no,downscript=no"
+WARNING: arm_now/ already exists, use --clean to restart with a fresh filesystem
+File not found by ext2_lookup
+WARNING: e2rm file already suppressed
+File not found by ext2_lookup
+WARNING: e2rm file already suppressed
+Tempdir /tmp/tmpkviejenh
+File not found by ext2_lookup
+WARNING: e2rm file already suppressed
+Starting qemu-system-arm
+stty intr ^]
+       export QEMU_AUDIO_DRV="none"
+       qemu-system-arm -M vexpress-a9 -kernel arm_now/kernel -sd arm_now/rootfs.ext2 -append 'root=/dev/mmcblk0 console=ttyAMA0 rw physmap.enabled=0 noapic'                -m 256M                -nographic                -serial stdio -monitor null -net nic,model=lan9118,macaddr=DE:AD:BE:EF:A9:26 -net tap,ifname=tap1,script=no,downscript=no                 -dtb arm_now/dtb                -no-reboot
+       stty intr ^c
+    
+WARNING: Image format was not specified for 'arm_now/rootfs.ext2' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+Booting Linux on physical CPU 0x0
+Linux version 4.11.3 (root@runner-4e4528ca-project-3290221-concurrent-0) (gcc version 6.4.0 (Buildroot 2018.02-rc2-00006-g39101b7) ) #1 SMP Sun Mar 4 00:49:28 UTC 2018
+CPU: ARMv7 Processor [410fc090] revision 0 (ARMv7), cr=10c5387d
+CPU: PIPT / VIPT nonaliasing data cache, VIPT nonaliasing instruction cache
+OF: fdt: Machine model: V2P-CA9
+Memory policy: Data cache writeback
+CPU: All CPU(s) started in SVC mode.
+percpu: Embedded 15 pages/cpu @8fdb2000 s31628 r8192 d21620 u61440
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 65024
+Kernel command line: root=/dev/mmcblk0 console=ttyAMA0 rw physmap.enabled=0 noapic
+log_buf_len individual max cpu contribution: 4096 bytes
+log_buf_len total cpu_extra contributions: 12288 bytes
+log_buf_len min size: 16384 bytes
+log_buf_len: 32768 bytes
+early log buf free: 14940(91%)
+PID hash table entries: 1024 (order: 0, 4096 bytes)
+Dentry cache hash table entries: 32768 (order: 5, 131072 bytes)
+Inode-cache hash table entries: 16384 (order: 4, 65536 bytes)
+Memory: 250960K/262144K available (5120K kernel code, 171K rwdata, 1216K rodata, 1024K init, 158K bss, 11184K reserved, 0K cma-reserved)
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+    vmalloc : 0x90800000 - 0xff800000   (1776 MB)
+    lowmem  : 0x80000000 - 0x90000000   ( 256 MB)
+    modules : 0x7f000000 - 0x80000000   (  16 MB)
+      .text : 0x80008000 - 0x80600000   (6112 kB)
+      .init : 0x80800000 - 0x80900000   (1024 kB)
+      .data : 0x80900000 - 0x8092af00   ( 172 kB)
+       .bss : 0x8092c000 - 0x80953b34   ( 159 kB)
+SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+Hierarchical RCU implementation.
+	RCU debugfs-based tracing is enabled.
+	Build-time adjustment of leaf fanout to 32.
+	RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=4.
+RCU: Adjusting geometry for rcu_fanout_leaf=32, nr_cpu_ids=4
+NR_IRQS:16 nr_irqs:16 16
+GIC CPU mask not found - kernel will fail to boot.
+GIC CPU mask not found - kernel will fail to boot.
+L2C: platform modifies aux control register: 0x02020000 -> 0x02420000
+L2C: DT/platform modifies aux control register: 0x02020000 -> 0x02420000
+L2C-310 enabling early BRESP for Cortex-A9
+L2C-310 full line of zeros enabled for Cortex-A9
+L2C-310 dynamic clock gating disabled, standby mode disabled
+L2C-310 cache controller enabled, 8 ways, 128 kB
+L2C-310: CACHE_ID 0x410000c8, AUX_CTRL 0x46420001
+smp_twd: clock not found -2
+sched_clock: 32 bits at 24MHz, resolution 41ns, wraps every 89478484971ns
+clocksource: arm,sp804: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275 ns
+Failed to initialize '/smb@04000000/motherboard/iofpga@7,00000000/timer@12000': -22
+Console: colour dummy device 80x30
+Calibrating local timer... 95.43MHz.
+Calibrating delay loop... 626.27 BogoMIPS (lpj=3131392)
+pid_max: default: 32768 minimum: 301
+Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)
+Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes)
+CPU: Testing write buffer coherency: ok
+CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+Setting up static identity map for 0x60100000 - 0x60100058
+smp: Bringing up secondary CPUs ...
+smp: Brought up 1 node, 1 CPU
+SMP: Total of 1 processors activated (626.27 BogoMIPS).
+CPU: All CPU(s) started in SVC mode.
+devtmpfs: initialized
+VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 0
+clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+futex hash table entries: 1024 (order: 4, 65536 bytes)
+NET: Registered protocol family 16
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+cpuidle: using governor ladder
+hw-breakpoint: debug architecture 0x4 unsupported.
+Serial: AMBA PL011 UART driver
+OF: amba_device_add() failed (-19) for /memory-controller@100e0000
+OF: amba_device_add() failed (-19) for /memory-controller@100e1000
+OF: amba_device_add() failed (-19) for /watchdog@100e5000
+irq: type mismatch, failed to map hwirq-75 for /interrupt-controller@1e001000!
+10009000.uart: ttyAMA0 at MMIO 0x10009000 (irq = 38, base_baud = 0) is a PL011 rev1
+console [ttyAMA0] enabled
+1000a000.uart: ttyAMA1 at MMIO 0x1000a000 (irq = 39, base_baud = 0) is a PL011 rev1
+1000b000.uart: ttyAMA2 at MMIO 0x1000b000 (irq = 40, base_baud = 0) is a PL011 rev1
+1000c000.uart: ttyAMA3 at MMIO 0x1000c000 (irq = 41, base_baud = 0) is a PL011 rev1
+OF: amba_device_add() failed (-19) for /smb@04000000/motherboard/iofpga@7,00000000/wdt@0f000
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+Advanced Linux Sound Architecture Driver Initialized.
+clocksource: Switched to clocksource arm,sp804
+NET: Registered protocol family 2
+TCP established hash table entries: 2048 (order: 1, 8192 bytes)
+TCP bind hash table entries: 2048 (order: 2, 16384 bytes)
+TCP: Hash tables configured (established 2048 bind 2048)
+UDP hash table entries: 256 (order: 1, 8192 bytes)
+UDP-Lite hash table entries: 256 (order: 1, 8192 bytes)
+NET: Registered protocol family 1
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+hw perfevents: enabled with armv7_cortex_a9 PMU driver, 1 counters available
+workingset: timestamp_bits=30 max_order=16 bucket_order=0
+squashfs: version 4.0 (2009/01/31) Phillip Lougher
+jffs2: version 2.2. (NAND) © 2001-2006 Red Hat, Inc.
+9p: Installing v9fs 9p2000 file system support
+io scheduler noop registered (default)
+io scheduler mq-deadline registered
+clcd-pl11x 10020000.clcd: PL111 designer 41 rev2 at 0x10020000
+clcd-pl11x 10020000.clcd: /clcd@10020000 hardware, 1024x768@59 display
+Console: switching to colour frame buffer device 128x48
+clcd-pl11x 1001f000.clcd: PL111 designer 41 rev2 at 0x1001f000
+clcd-pl11x 1001f000.clcd: /smb@04000000/motherboard/iofpga@7,00000000/clcd@1f000 hardware, 640x480@59 display
+40000000.flash: Found 2 x16 devices at 0x0 in 32-bit bank. Manufacturer ID 0x000000 Chip ID 0x000000
+Intel/Sharp Extended Query Table at 0x0031
+Using buffer write method
+40000000.flash: Found 2 x16 devices at 0x0 in 32-bit bank. Manufacturer ID 0x000000 Chip ID 0x000000
+Intel/Sharp Extended Query Table at 0x0031
+Using buffer write method
+Concatenating MTD devices:
+(0): "40000000.flash"
+(1): "40000000.flash"
+into device "40000000.flash"
+libphy: Fixed MDIO Bus: probed
+libphy: smsc911x-mdio: probed
+smsc911x 4e000000.ethernet eth0: MAC Address: de:ad:be:ef:a9:26
+isp1760 4f000000.usb: bus width: 32, oc: digital
+isp1760 4f000000.usb: NXP ISP1760 USB Host Controller
+isp1760 4f000000.usb: new USB bus registered, assigned bus number 1
+isp1760 4f000000.usb: Scratch test failed.
+isp1760 4f000000.usb: can't setup: -19
+isp1760 4f000000.usb: USB bus 1 deregistered
+usbcore: registered new interface driver usb-storage
+rtc-pl031 10017000.rtc: rtc core: registered pl031 as rtc0
+mmci-pl18x 10005000.mmci: Got CD GPIO
+mmci-pl18x 10005000.mmci: Got WP GPIO
+mmci-pl18x 10005000.mmci: mmc0: PL181 manf 41 rev0 at 0x10005000 irq 34,35 (pio)
+mmc0: new SD card at address 4567
+ledtrig-cpu: registered to indicate activity on CPUs
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+input: AT Raw Set 2 keyboard as /devices/platform/smb@04000000/smb@04000000:motherboard/smb@04000000:motherboard:iofpga@7,00000000/10006000.kmi/serio0/input/input0
+mmcblk0: mmc0:4567 QEMU! 100 MiB 
+aaci-pl041 10004000.aaci: ARM AC'97 Interface PL041 rev0 at 0x10004000, irq 33
+aaci-pl041 10004000.aaci: FIFO 512 entries
+oprofile: using arm/armv7-ca9
+NET: Registered protocol family 17
+9pnet: Installing 9P2000 support
+Registering SWP/SWPB emulation handler
+rtc-pl031 10017000.rtc: setting system clock to 2019-05-12 19:54:15 UTC (1557690855)
+ALSA device list:
+  #0: ARM AC'97 Interface PL041 rev0 at 0x10004000, irq 33
+input: ImExPS/2 Generic Explorer Mouse as /devices/platform/smb@04000000/smb@04000000:motherboard/smb@04000000:motherboard:iofpga@7,00000000/10007000.kmi/serio1/input/input2
+EXT4-fs (mmcblk0): couldn't mount as ext3 due to feature incompatibilities
+random: fast init done
+EXT4-fs (mmcblk0): mounted filesystem without journal. Opts: (null)
+VFS: Mounted root (ext4 filesystem) on device 179:0.
+devtmpfs: mounted
+Freeing unused kernel memory: 1024K
+random: crng init done
+EXT4-fs (mmcblk0): re-mounted. Opts: block_validity,delalloc,barrier,user_xattr
+Starting logging: OK
+Initializing random number generator... done.
+Generic PHY 4e000000.ethernet-ffffffff:01: attached PHY driver [Generic PHY] (mii_bus:phy_addr=4e000000.ethernet-ffffffff:01, irq=-1)
+smsc911x 4e000000.ethernet eth0: SMSC911x/921x identified at 0x91390000, IRQ: 31
+press ctrl+] to kill qemu
+
+Welcome to arm_now
+buildroot login: root
+# dhclient
+-sh: dhclient: not found
+# which dhclient
+# ifconfig -a
+eth0      Link encap:Ethernet  HWaddr DE:AD:BE:EF:A9:26  
+          inet addr:10.0.2.15  Bcast:10.255.255.255  Mask:255.0.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:4 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:356 (356.0 B)  TX bytes:0 (0.0 B)
+          Interrupt:31 
+
+lo        Link encap:Local Loopback  
+          LOOPBACK  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+# ping www.google.com
+^C
+# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.0.2.2        0.0.0.0         UG    0      0        0 eth0
+10.0.0.0        0.0.0.0         255.0.0.0       U     0      0        0 eth0
+# route del default gw 10.0.2.2
+# ifconfig eth0 192.168.1.66
+# route add default gw 192.168.1.1
+# vi /etc/resolv.conf
+# ifconfig 
+eth0      Link encap:Ethernet  HWaddr DE:AD:BE:EF:A9:26  
+          inet addr:192.168.1.66  Bcast:192.168.1.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:22 errors:0 dropped:2 overruns:0 frame:0
+          TX packets:3 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1668 (1.6 KiB)  TX bytes:126 (126.0 B)
+          Interrupt:31 
+
+# ping www.google.com
+PING www.google.com (172.217.30.4): 56 data bytes
+64 bytes from 172.217.30.4: seq=1 ttl=55 time=356.336 ms
+64 bytes from 172.217.30.4: seq=2 ttl=55 time=64.042 ms
+64 bytes from 172.217.30.4: seq=2 ttl=55 time=67.216 ms (DUP!)
+64 bytes from 172.217.30.4: seq=3 ttl=55 time=41.654 ms
+64 bytes from 172.217.30.4: seq=4 ttl=55 time=79.469 ms
+^C
+--- www.google.com ping statistics ---
+5 packets transmitted, 4 packets received, 1 duplicates, 20% packet loss
+round-trip min/avg/max = 41.654/121.743/356.336 ms
+# opkg install isc-dhcp-client-ipv4
+Installing isc-dhcp-client-ipv4 (4.3.6-1) to root...
+Downloading https://pkg.entware.net/binaries/armv5/isc-dhcp-client-ipv4_4.3.6-1_armv5soft.ipk
+Configuring isc-dhcp-client-ipv4.
+# dhclient
+# ifconfig 
+eth0      Link encap:Ethernet  HWaddr DE:AD:BE:EF:A9:26  
+          inet addr:192.168.1.225  Bcast:192.168.1.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:541 errors:0 dropped:2 overruns:0 frame:0
+          TX packets:405 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:719261 (702.4 KiB)  TX bytes:26729 (26.1 KiB)
+          Interrupt:31 
+
+# 
