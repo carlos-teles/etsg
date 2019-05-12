@@ -46,6 +46,7 @@ if [ $APT_ORG -eq 1 ]; then
 	#
 	echo "4- Install base software "
 	sleep 3
+	apt install bridge-utils
 	apt-get install isc-dhcp-server
 	apt-get install openssh-server
 	apt-get install sqlite
