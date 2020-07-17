@@ -1,4 +1,4 @@
-# Evebox / TICK / Sucricata / Graphana - ETSG
+# Evebox / TICK / Suricata / Grafana - ETSG
 
 EveBox with TICK, Suricata and Grafana for monitoring security and performance.
 
